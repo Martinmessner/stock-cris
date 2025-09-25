@@ -1,0 +1,128 @@
+.app {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.formulario {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.formulario input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.formulario button {
+  padding: 8px 12px;
+  background: #007bff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.formulario button:hover {
+  background: #0056b3;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.cantidad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cantidad button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: #ddd;
+  cursor: pointer;
+}
+
+.cantidad button:hover {
+  background: #bbb;
+}
+
+.estado {
+  font-weight: bold;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.estado.disponible {
+  background: #c8f7c5;
+  color: #2e7d32;
+}
+
+.estado.bajo-stock {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.estado.sin-stock {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+button.editar {
+  background: #ffc107;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+button.editar:hover {
+  background: #e0a800;
+}
+
+button.eliminar {
+  background: #dc3545;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: white;
+  cursor: pointer;
+}
+
+button.eliminar:hover {
+  background: #c82333;
+}
+
+button.guardar {
+  background: #28a745;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: white;
+  cursor: pointer;
+}
+
+button.guardar:hover {
+  background: #218838;
+}
