@@ -23,6 +23,9 @@ export default function App() {
     null
   );
 
+  // 🔍 Nuevo estado para el filtro
+  const [busqueda, setBusqueda] = useState("");
+
   useEffect(() => {
     localStorage.setItem("stock", JSON.stringify(productos));
   }, [productos]);
@@ -79,10 +82,27 @@ export default function App() {
 
   const sinStock = productos.filter((p) => p.cantidad === 0);
 
+  // 🔍 Filtrado de productos según la búsqueda
+  const productosFiltrados = productos.filter(
+    (p) =>
+      p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+      p.detalles.toLowerCase().includes(busqueda.toLowerCase())
+  );
+
   return (
     <div className="app-container">
       <div className="app">
         <h1>📦 Control de Stock</h1>
+
+        {/* 🔍 Barra de búsqueda */}
+        <div className="busqueda">
+          <input
+            type="text"
+            placeholder="Buscar producto..."
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+          />
+        </div>
 
         <form
           className="formulario"
@@ -121,102 +141,108 @@ export default function App() {
             </tr>
           </thead>
           <tbody>
-            {productos.map((p) => (
-              <tr key={p.id}>
-                {editando === p.id && editandoProducto ? (
-                  <>
-                    <td>
-                      <input
-                        value={editandoProducto.nombre}
-                        onChange={(e) =>
-                          setEditandoProducto({
-                            ...editandoProducto,
-                            nombre: e.target.value,
-                          })
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        value={editandoProducto.detalles}
-                        onChange={(e) =>
-                          setEditandoProducto({
-                            ...editandoProducto,
-                            detalles: e.target.value,
-                          })
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        value={editandoProducto.cantidad}
-                        onChange={(e) =>
-                          setEditandoProducto({
-                            ...editandoProducto,
-                            cantidad: Number(e.target.value),
-                          })
-                        }
-                      />
-                    </td>
-                    <td
-                      className={`estado ${getEstado(
-                        editandoProducto.cantidad
-                      )}`}
-                    >
-                      {editandoProducto.cantidad === 0
-                        ? "Sin stock"
-                        : editandoProducto.cantidad < 5
-                        ? "Stock bajo"
-                        : "Disponible"}
-                    </td>
-                    <td>
-                      <button className="guardar" onClick={guardarEdicion}>
-                        ✅ Guardar
-                      </button>
-                      <button className="eliminar" onClick={cancelarEdicion}>
-                        ❌ Cancelar
-                      </button>
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    <td>{p.nombre}</td>
-                    <td>{p.detalles}</td>
-                    <td className="cantidad">
-                      <button onClick={() => cambiarCantidad(p.id, -1)}>
-                        ➖
-                      </button>
-                      <span>{p.cantidad}</span>
-                      <button onClick={() => cambiarCantidad(p.id, 1)}>
-                        ➕
-                      </button>
-                    </td>
-                    <td className={`estado ${getEstado(p.cantidad)}`}>
-                      {p.cantidad === 0
-                        ? "Sin stock"
-                        : p.cantidad < 5
-                        ? "Stock bajo"
-                        : "Disponible"}
-                    </td>
-                    <td>
-                      <button
-                        className="editar"
-                        onClick={() => iniciarEdicion(p)}
-                      >
-                        ✏️ Editar
-                      </button>
-                      <button
-                        className="eliminar"
-                        onClick={() => eliminarProducto(p.id)}
-                      >
-                        🗑️ Eliminar
-                      </button>
-                    </td>
-                  </>
-                )}
+            {productosFiltrados.length === 0 ? (
+              <tr>
+                <td colSpan={5}>No se encontraron productos.</td>
               </tr>
-            ))}
+            ) : (
+              productosFiltrados.map((p) => (
+                <tr key={p.id}>
+                  {editando === p.id && editandoProducto ? (
+                    <>
+                      <td>
+                        <input
+                          value={editandoProducto.nombre}
+                          onChange={(e) =>
+                            setEditandoProducto({
+                              ...editandoProducto,
+                              nombre: e.target.value,
+                            })
+                          }
+                        />
+                      </td>
+                      <td>
+                        <input
+                          value={editandoProducto.detalles}
+                          onChange={(e) =>
+                            setEditandoProducto({
+                              ...editandoProducto,
+                              detalles: e.target.value,
+                            })
+                          }
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          value={editandoProducto.cantidad}
+                          onChange={(e) =>
+                            setEditandoProducto({
+                              ...editandoProducto,
+                              cantidad: Number(e.target.value),
+                            })
+                          }
+                        />
+                      </td>
+                      <td
+                        className={`estado ${getEstado(
+                          editandoProducto.cantidad
+                        )}`}
+                      >
+                        {editandoProducto.cantidad === 0
+                          ? "Sin stock"
+                          : editandoProducto.cantidad < 5
+                          ? "Stock bajo"
+                          : "Disponible"}
+                      </td>
+                      <td>
+                        <button className="guardar" onClick={guardarEdicion}>
+                          ✅ Guardar
+                        </button>
+                        <button className="eliminar" onClick={cancelarEdicion}>
+                          ❌ Cancelar
+                        </button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>{p.nombre}</td>
+                      <td>{p.detalles}</td>
+                      <td className="cantidad">
+                        <button onClick={() => cambiarCantidad(p.id, -1)}>
+                          ➖
+                        </button>
+                        <span>{p.cantidad}</span>
+                        <button onClick={() => cambiarCantidad(p.id, 1)}>
+                          ➕
+                        </button>
+                      </td>
+                      <td className={`estado ${getEstado(p.cantidad)}`}>
+                        {p.cantidad === 0
+                          ? "Sin stock"
+                          : p.cantidad < 5
+                          ? "Stock bajo"
+                          : "Disponible"}
+                      </td>
+                      <td>
+                        <button
+                          className="editar"
+                          onClick={() => iniciarEdicion(p)}
+                        >
+                          ✏️ Editar
+                        </button>
+                        <button
+                          className="eliminar"
+                          onClick={() => eliminarProducto(p.id)}
+                        >
+                          🗑️ Eliminar
+                        </button>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

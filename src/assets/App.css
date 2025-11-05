@@ -118,6 +118,29 @@ table {
   font-size: 0.95rem;
 }
 
+/* Barra de búsqueda */
+.busqueda {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.busqueda input {
+  width: 60%;
+  max-width: 400px;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.busqueda input:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
 th {
   background: #e2e8f0;
   padding: 0.7rem;
